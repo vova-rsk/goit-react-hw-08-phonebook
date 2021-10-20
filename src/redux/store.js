@@ -11,8 +11,8 @@ import {
   REGISTER,
 } from 'redux-persist';
 import authReducer from './auth/auth-slice';
-// import contactsSlice from './contacts/contacts-slice';
-// import filterSlice from './filter/filter-slice';
+import contactsReducer from './contacts/contacts-slice';
+import filterReducer from './filter/filter-slice';
 
 const authPersistConfig = {
   key: 'auth',
@@ -24,6 +24,8 @@ const authPersistReducer = persistReducer(authPersistConfig, authReducer);
 
 const rootReducer = combineReducers({
   auth: authPersistReducer,
+  contacts: contactsReducer,
+  filter: filterReducer,
 });
 
 export const store = configureStore({

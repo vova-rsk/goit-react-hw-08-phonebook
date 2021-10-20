@@ -1,5 +1,24 @@
+import { useState } from 'react';
+import ContactsList from '../../components/Contacts/ContactsList';
+import AddIcon from '@mui/icons-material/Add';
+import StyledAddButton from './ContactsView.styled';
+import ContactsAddForm from '../../components/Contacts/ContactsAddForm';
+import ModalWindow from '../../components/Modal';
+
 const ContactsView = () => {
-  return <div></div>;
+  const [modalOpen, setModalOpen] = useState(false);
+
+  return (
+    <>
+      <ContactsList />
+      <StyledAddButton variant="contained" onClick={() => setModalOpen(true)}>
+        <AddIcon />
+      </StyledAddButton>
+      <ModalWindow modalShow={modalOpen} modalHide={() => setModalOpen(false)}>
+        <ContactsAddForm modalHide={() => setModalOpen(false)} />
+      </ModalWindow>
+    </>
+  );
 };
 
 export default ContactsView;

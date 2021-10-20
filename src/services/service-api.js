@@ -34,18 +34,15 @@ const getContacts = async () => {
 };
 
 const postContact = async contactData => {
-  return await axios.post('/contacts', { data: contactData });
+  return await axios.post('/contacts', contactData);
 };
 
 const deleteContact = async contactId => {
-  return await axios.delete('/contacts', { params: contactId });
+  return await axios.delete(`/contacts/${contactId}`);
 };
 
 const patchContact = async (contactId, contactData) => {
-  return await axios.patch('/contacts', {
-    params: contactId,
-    data: contactData,
-  });
+  return await axios.patch(`/contacts/${contactId}`, contactData);
 };
 
 const api = {
