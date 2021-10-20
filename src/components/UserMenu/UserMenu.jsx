@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import Menu from '@mui/material/Menu';
 import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -50,6 +51,12 @@ const UserMenu = ({ handleMenu, anchorEl, handleClose }) => {
       </Menu>
     </>
   );
+};
+
+UserMenu.propTypes = {
+  handleMenu: PropTypes.func.isRequired,
+  anchorEl: PropTypes.any,
+  handleClose: PropTypes.func.isRequired,
 };
 
 export default UserMenu;

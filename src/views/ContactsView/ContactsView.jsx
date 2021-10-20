@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import ContactsList from '../../components/Contacts/ContactsList';
 import AddIcon from '@mui/icons-material/Add';
+import ContactsList from '../../components/Contacts/ContactsList';
 import StyledAddButton from './ContactsView.styled';
 import ContactsAddForm from '../../components/Contacts/ContactsAddForm';
 import ModalWindow from '../../components/Modal';

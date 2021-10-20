@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -8,7 +9,7 @@ import * as contactsOperation from '../../redux/contacts/contacts-operations';
 import ModalWindow from '../Modal';
 import ContactsEditForm from '../Contacts/ContactsEditForm';
 
-function ActionMenu({ id, name, number }) {
+const ActionMenu = ({ contact }) => {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -28,7 +29,7 @@ function ActionMenu({ id, name, number }) {
           <IconButton
             edge="end"
             aria-label="delete"
-            onClick={() => dispatch(contactsOperation.remove(id))}
+            onClick={() => dispatch(contactsOperation.remove(contact.id))}
           >
             <DeleteIcon />
           </IconButton>
@@ -36,14 +37,16 @@ function ActionMenu({ id, name, number }) {
       </ul>
       <ModalWindow modalShow={modalOpen} modalHide={() => setModalOpen(false)}>
         <ContactsEditForm
-          id={id}
-          name={name}
-          number={number}
+          contact={contact}
           modalHide={() => setModalOpen(false)}
         />
       </ModalWindow>
     </Container>
   );
-}
+};
+
+ActionMenu.propTypes = {
+  contact: PropTypes.object,
+};
 
 export default ActionMenu;

@@ -17,8 +17,8 @@ const ContactList = () => {
 
   return (
     <StyledList>
-      {filteredContacts.map(({ id, name, number }) => (
-        <ContactItem key={id} id={id} name={name} number={number} />
+      {filteredContacts.map(contact => (
+        <ContactItem key={contact.id} contact={contact} />
       ))}
     </StyledList>
   );

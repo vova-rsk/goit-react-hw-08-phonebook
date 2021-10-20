@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   Container,
   StyledTextField,
@@ -9,22 +10,17 @@ import {
 import * as contactsOperations from '../../../redux/contacts/contacts-operations';
 // import { registrationDataCheckingSucces } from '../../utils/utils';
 
-const ContactsEditForm = ({
-  id,
-  name: editingName,
-  number: editingNumber,
-  modalHide,
-}) => {
+const ContactsEditForm = ({ contact, modalHide }) => {
   const dispatch = useDispatch();
-  const [name, setName] = useState(editingName);
-  const [number, setNumber] = useState(editingNumber);
+  const [name, setName] = useState(contact.name);
+  const [number, setNumber] = useState(contact.number);
 
   const handleSubmit = e => {
     e.preventDefault();
 
     // if (!registrationDataCheckingSucces({ name, email })) return;
 
-    dispatch(contactsOperations.patch({ id, name, number }));
+    dispatch(contactsOperations.patch({ id: contact.id, name, number }));
     modalHide();
   };
 
@@ -58,6 +54,15 @@ const ContactsEditForm = ({
       </StyledPaper>
     </Container>
   );
+};
+
+ContactsEditForm.propTypes = {
+  contact: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
+  }),
+  modalHide: PropTypes.func.isRequired,
 };
 
 export default ContactsEditForm;

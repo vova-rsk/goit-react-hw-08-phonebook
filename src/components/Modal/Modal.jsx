@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 
@@ -19,8 +20,7 @@ export const style = {
   p: 4,
 };
 
-const ModalWindow = ({ children, ...modalProps }) => {
-  const { modalShow, modalHide } = modalProps;
+const ModalWindow = ({ modalShow, modalHide, children }) => {
   return (
     <Modal
       open={modalShow}
@@ -31,6 +31,12 @@ const ModalWindow = ({ children, ...modalProps }) => {
       <Box sx={style}>{children}</Box>
     </Modal>
   );
+};
+
+ModalWindow.propTypes = {
+  modalShow: PropTypes.bool.isRequired,
+  modalHide: PropTypes.func.isRequired,
+  children: PropTypes.node,
 };
 
 export default ModalWindow;

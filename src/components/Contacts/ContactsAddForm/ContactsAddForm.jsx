@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   Container,
   StyledTextField,
@@ -56,6 +57,10 @@ const ContactsAddForm = ({ modalHide }) => {
       </StyledPaper>
     </Container>
   );
+};
+
+ContactsAddForm.propTypes = {
+  modalHide: PropTypes.func.isRequired,
 };
 
 export default ContactsAddForm;

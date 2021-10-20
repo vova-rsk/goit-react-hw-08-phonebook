@@ -1,11 +1,7 @@
 import RegisterForm from '../../components/RegisterForm';
 
 const RegisterView = () => {
-  return (
-    <div>
-      <RegisterForm />
-    </div>
-  );
+  return <RegisterForm />;
 };
 
 export default RegisterView;
