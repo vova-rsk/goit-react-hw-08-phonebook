@@ -8,6 +8,11 @@ const contactsSlice = createSlice({
     isLoading: false,
     error: null,
   },
+  reducers: {
+    resetContacts(state) {
+      state.items = [];
+    },
+  },
   extraReducers: {
     [contactsOperations.fetch.pending]: state => {
       state.isLoading = true;
@@ -59,4 +64,5 @@ const contactsSlice = createSlice({
   },
 });
 
+export const { resetContacts } = contactsSlice.actions;
 export default contactsSlice.reducer;
