@@ -4,7 +4,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import PersonIcon from '@mui/icons-material/Person';
 import ActionMenu from '../../ActionMenu';
-import StyledListItem from './ContactsItem.styled';
+import { StyledListItem } from './ContactsItem.styled';
 
 const ContactItem = ({ contact }) => {
   return (
@@ -14,8 +14,8 @@ const ContactItem = ({ contact }) => {
           <PersonIcon />
         </Avatar>
       </ListItemAvatar>
-      <ListItemText primary={contact.name} />
-      <ListItemText primary={contact.number} />
+      <ListItemText primary={contact.name} className="name" />
+      <ListItemText primary={contact.number} className="number" />
     </StyledListItem>
   );
 };
