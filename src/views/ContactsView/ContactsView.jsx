@@ -2,7 +2,7 @@ import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import ContactsList from '../../components/Contacts/ContactsList';
 import StyledAddButton from './ContactsView.styled';
-import ContactsAddForm from '../../components/Contacts/ContactsAddForm';
+import ContactsAddForm from '../../components/ContactsAddForm';
 import ModalWindow from '../../components/Modal';
 
 const ContactsView = () => {

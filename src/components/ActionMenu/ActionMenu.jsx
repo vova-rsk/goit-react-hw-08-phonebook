@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Container from './ActionMenu.styled';
 import * as contactsOperation from '../../redux/contacts/contacts-operations';
 import ModalWindow from '../Modal';
-import ContactsEditForm from '../Contacts/ContactsEditForm';
+import ContactsEditForm from '../ContactsEditForm';
 
 const ActionMenu = ({ contact }) => {
   const dispatch = useDispatch();
