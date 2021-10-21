@@ -1,13 +1,5 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  Container,
-  StyledTextField,
-  StyledButton,
-  StyledPaper,
-} from './LoginForm.styled';
-import * as authOperations from '../../redux/auth/auth-operations';
-
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -15,6 +7,13 @@ import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import {
+  Container,
+  StyledTextField,
+  StyledButton,
+  StyledPaper,
+} from './LoginForm.styled';
+import * as authOperations from '../../redux/auth/auth-operations';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
