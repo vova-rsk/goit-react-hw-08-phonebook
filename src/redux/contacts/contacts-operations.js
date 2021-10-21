@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import serviceApi from '../../services/service-api';
+import notification from '../../utils/notification';
 
 export const fetch = createAsyncThunk(
   'contacts/fetch',
@@ -8,8 +9,11 @@ export const fetch = createAsyncThunk(
       const { data } = await serviceApi.contacts.getContacts();
       return data;
     } catch (error) {
-      console.log(error);
-      return rejectWithValue(error.message);
+      const {
+        response: { status, statusText },
+      } = error;
+      notification.fetchContactsError(status);
+      return rejectWithValue({ status, statusText });
     }
   },
 );
@@ -19,10 +23,14 @@ export const post = createAsyncThunk(
   async (contactData, { rejectWithValue }) => {
     try {
       const { data } = await serviceApi.contacts.postContact(contactData);
+      notification.addContactSuccess();
       return data;
     } catch (error) {
-      console.log(error.message);
-      return rejectWithValue(error.message);
+      const {
+        response: { status, statusText },
+      } = error;
+      notification.addContactError(status);
+      return rejectWithValue({ status, statusText });
     }
   },
 );
@@ -34,8 +42,11 @@ export const remove = createAsyncThunk(
       await serviceApi.contacts.deleteContact(contactId);
       return contactId;
     } catch (error) {
-      console.log(error.message);
-      return rejectWithValue(error.message);
+      const {
+        response: { status, statusText },
+      } = error;
+      notification.deleteContactError(status);
+      return rejectWithValue({ status, statusText });
     }
   },
 );
@@ -50,8 +61,11 @@ export const patch = createAsyncThunk(
       });
       return data;
     } catch (error) {
-      console.log(error.message);
-      return rejectWithValue(error.message);
+      const {
+        response: { status, statusText },
+      } = error;
+      notification.updateContactError(status);
+      return rejectWithValue({ status, statusText });
     }
   },
 );

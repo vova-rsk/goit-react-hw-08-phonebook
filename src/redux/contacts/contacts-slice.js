@@ -5,12 +5,16 @@ const contactsSlice = createSlice({
   name: 'contactItems',
   initialState: {
     items: [],
+    filter: '',
     isLoading: false,
     error: null,
   },
   reducers: {
-    resetContacts(state) {
+    resetContacts: state => {
       state.items = [];
+    },
+    changeFilter: (state, action) => {
+      state.filter = action.payload;
     },
   },
   extraReducers: {
@@ -64,5 +68,5 @@ const contactsSlice = createSlice({
   },
 });
 
-export const { resetContacts } = contactsSlice.actions;
+export const { resetContacts, changeFilter } = contactsSlice.actions;
 export default contactsSlice.reducer;

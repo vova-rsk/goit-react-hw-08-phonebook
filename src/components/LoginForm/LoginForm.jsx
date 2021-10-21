@@ -37,16 +37,13 @@ const LoginForm = () => {
             variant="standard"
             size="small"
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-            // title="Название почты должно иметь такой вид: example@domain.com"
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
-          <FormControl sx={{ marginTop: '6px' }} variant="standard">
-            <InputLabel htmlFor="standard-adornment-password">
-              Password
-            </InputLabel>
+          <FormControl sx={{ marginTop: '10px' }} variant="standard">
+            <InputLabel htmlFor="login-password">Password</InputLabel>
             <Input
-              id="standard-adornment-password"
+              id="login-password"
               type={passwordShow ? 'text' : 'password'}
               value={password}
               onChange={e => setPassword(e.target.value)}

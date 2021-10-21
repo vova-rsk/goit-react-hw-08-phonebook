@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   Container,
@@ -7,10 +7,13 @@ import {
   StyledButton,
   StyledPaper,
 } from './ContactsAddForm.styled';
+import { getFilteredContacts } from '../../redux/contacts/contacts-selectors';
 import * as contactsOperations from '../../redux/contacts/contacts-operations';
-// import { registrationDataCheckingSucces } from '../../utils/utils';
+import { duplicateChekingSuccess } from '../../utils/utils';
+import notification from '../../utils/notification';
 
 const ContactsAddForm = ({ modalHide }) => {
+  const contacts = useSelector(getFilteredContacts);
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -18,12 +21,14 @@ const ContactsAddForm = ({ modalHide }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    // if (!registrationDataCheckingSucces({ name, email })) return;
+    const contactToAdd = { name, number };
 
-    dispatch(contactsOperations.post({ name, number }));
+    if (duplicateChekingSuccess(contacts, contactToAdd)) {
+      notification.duplicationSuccess();
+      return;
+    }
 
-    setName('');
-    setNumber('');
+    dispatch(contactsOperations.post(contactToAdd));
     modalHide();
   };
 
@@ -37,7 +42,6 @@ const ContactsAddForm = ({ modalHide }) => {
             label="Name"
             variant="standard"
             size="small"
-            // title="The name can only consist of letters, apostrophes, dashes and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
             value={name}
             onChange={e => setName(e.target.value)}
           />
@@ -46,7 +50,6 @@ const ContactsAddForm = ({ modalHide }) => {
             label="Phone number"
             variant="standard"
             size="small"
-            // title="The mail value should look like this: example@domain.com"
             value={number}
             onChange={e => setNumber(e.target.value)}
           />

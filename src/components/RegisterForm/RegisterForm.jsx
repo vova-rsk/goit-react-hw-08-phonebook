@@ -1,5 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 import {
   Container,
   StyledTextField,
@@ -9,25 +16,15 @@ import {
 import * as authOperations from '../../redux/auth/auth-operations';
 import { registrationDataCheckingSucces } from '../../utils/utils';
 
-// import Visibility from '@mui/icons-material/Visibility';
-// import VisibilityOff from '@mui/icons-material/VisibilityOff';
-// import InputAdornment from '@mui/material/InputAdornment';
-// import IconButton from '@mui/material/IconButton';
-// import Input from '@mui/material/Input';
-// import InputLabel from '@mui/material/InputLabel';
-
 const RegisterForm = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [verificationPassword, setVerificationPassword] = useState('');
-
-  // const [passwordShow, setPasswordShow] = useState(false);
-
-  // const handleChange = (event) => {
-  //   setPassword(event.target.value);
-  // };
+  const [passwordShow, setPasswordShow] = useState(false);
+  const [verificationPasswordShow, setVerificationPasswordShow] =
+    useState(false);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -43,11 +40,6 @@ const RegisterForm = () => {
       return;
 
     dispatch(authOperations.signUp({ name, email, password }));
-
-    setName('');
-    setEmail('');
-    setPassword('');
-    setVerificationPassword('');
   };
 
   return (
@@ -73,46 +65,59 @@ const RegisterForm = () => {
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
-          <StyledTextField
-            required
-            label="Password"
-            type="password"
-            autoComplete="current-password"
-            size="small"
-            variant="standard"
-            title="Minimum of 7 characters. Should have at least one special character and one number and one UpperCase Letter."
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
-          <StyledTextField
-            required
-            label="Password verification "
-            type="password"
-            autoComplete="current-password"
-            variant="standard"
-            size="small"
-            value={verificationPassword}
-            onChange={e => setVerificationPassword(e.target.value)}
-          />
-
-          {/* <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-          <Input
-            id="standard-adornment-password"
-            type={passwordShow ? 'text' : 'password'}
-            value={password}
-            onChange={e=>handleChange(e)}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={()=>setPasswordShow(!passwordShow)}
-                  onMouseDown={e => {e.preventDefault()}}
-                >
-                  {passwordShow ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-          /> */}
+          <FormControl sx={{ marginTop: '10px' }} variant="standard">
+            <InputLabel htmlFor="registration-password">Password</InputLabel>
+            <Input
+              id="registration-password"
+              type={passwordShow ? 'text' : 'password'}
+              title="Minimum of 7 characters. Should have at least one special character and one number and one UpperCase Letter."
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setPasswordShow(!passwordShow)}
+                    onMouseDown={e => {
+                      e.preventDefault();
+                    }}
+                  >
+                    {passwordShow ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+          <FormControl sx={{ marginTop: '10px' }} variant="standard">
+            <InputLabel htmlFor="registration-verification-password">
+              Password
+            </InputLabel>
+            <Input
+              id="registration-verification-password"
+              type={verificationPasswordShow ? 'text' : 'password'}
+              value={verificationPassword}
+              onChange={e => setVerificationPassword(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() =>
+                      setVerificationPasswordShow(!verificationPasswordShow)
+                    }
+                    onMouseDown={e => {
+                      e.preventDefault();
+                    }}
+                  >
+                    {verificationPasswordShow ? (
+                      <VisibilityOff />
+                    ) : (
+                      <Visibility />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
           <StyledButton type="submit" variant="contained" size="large">
             Register
           </StyledButton>

@@ -5,15 +5,10 @@ import { ToastContainer } from 'react-toastify';
 import * as authOperations from './redux/auth/auth-operations';
 import ApplicationBar from './components/ApplicationBar';
 import Container from './App.styled';
-// import { RegisterView, LoginView, ContactsView, PageErrorView } from './views';
+import { RegisterView, LoginView, ContactsView, PageErrorView } from './views';
 import PrivatRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 import { getLoadingStatus } from './redux/auth/auth-selectors';
-
-import ContactsView from './views/ContactsView';
-import LoginView from './views/LoginView';
-import RegisterView from './views/RegisterView';
-import PageErrorView from './views/PageErrorView';
 
 const App = () => {
   const isUserDataLoading = useSelector(getLoadingStatus);

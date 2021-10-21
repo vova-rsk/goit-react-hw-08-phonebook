@@ -51,6 +51,38 @@ const logOutError = errorCode => {
   }
 };
 
+const duplicationSuccess = () => {
+  notification.warning('Сontact with this number is already present');
+};
+
+const addContactSuccess = () => {
+  notification.success('Сontact added successfully');
+};
+
+const addContactError = errorCode => {
+  if (errorCode === 400) {
+    notification.warning('Contact creation error');
+  }
+};
+
+const fetchContactsError = errorCode => {
+  if (errorCode === 500) {
+    notification.warning('Server error. Try again');
+  }
+};
+
+const deleteContactError = errorCode => {
+  if (errorCode === 500) {
+    notification.warning('Server error. Try again');
+  }
+};
+
+const updateContactError = errorCode => {
+  if (errorCode === 400) {
+    notification.warning('Contact update error');
+  }
+};
+
 const notification = {
   warning,
   success,
@@ -59,6 +91,12 @@ const notification = {
   signUpError,
   logInError,
   logOutError,
+  duplicationSuccess,
+  addContactSuccess,
+  addContactError,
+  fetchContactsError,
+  deleteContactError,
+  updateContactError,
 };
 
 export default notification;

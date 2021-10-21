@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import { Filter, FilterIconWrapper, StyledInputBase } from './FilterBar.styled';
-import getFilter from '../../redux/filter/filter-selectors';
-import { changeFilter } from '../../redux/filter/filter-slice';
+import { getFilter } from '../../redux/contacts/contacts-selectors';
+import { changeFilter } from '../../redux/contacts/contacts-slice';
 
 const FilterBar = () => {
   const filter = useSelector(getFilter);
