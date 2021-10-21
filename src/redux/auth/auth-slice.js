@@ -9,6 +9,7 @@ const initialState = {
   token: null,
   isLoggedIn: false,
   isLoading: false,
+  error: null,
 };
 
 const authSlice = createSlice({
@@ -26,7 +27,7 @@ const authSlice = createSlice({
     },
     [authOperations.signUp.rejected]: (state, action) => {
       state.isLoading = false;
-      // state.error = action.payload;
+      state.error = action.payload;
     },
     [authOperations.logIn.pending]: state => {
       state.isLoading = true;
@@ -39,7 +40,7 @@ const authSlice = createSlice({
     },
     [authOperations.logIn.rejected]: (state, action) => {
       state.isLoading = false;
-      // state.error = action.payload;
+      state.error = action.payload;
     },
     [authOperations.logOut.pending]: state => {
       state.isLoading = true;
@@ -53,7 +54,7 @@ const authSlice = createSlice({
     },
     [authOperations.logOut.rejected]: (state, action) => {
       state.isLoading = false;
-      // state.error = action.payload;
+      state.error = action.payload;
     },
     [authOperations.refresh.pending]: state => {
       state.isLoading = true;
@@ -65,8 +66,8 @@ const authSlice = createSlice({
     },
     [authOperations.refresh.rejected]: (state, action) => {
       state.isLoading = false;
-      // state.isLoggedIn = false;
-      // state.error = action.payload;
+      state.isLoggedIn = false;
+      state.error = action.payload;
     },
   },
 });

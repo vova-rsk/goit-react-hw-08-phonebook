@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import serviceApi from '../../services/service-api';
+import notification from '../../utils/notification';
 
 export const signUp = createAsyncThunk(
   'user/signup',
@@ -7,9 +8,14 @@ export const signUp = createAsyncThunk(
     try {
       const { data } = await serviceApi.user.registerUser(userData);
       serviceApi.token.set(data.token);
+      notification.signUpSuccess(data.user.name);
       return data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      const {
+        response: { status, statusText },
+      } = error;
+      notification.signUpError(status);
+      return rejectWithValue({ status, statusText });
     }
   },
 );
@@ -20,9 +26,14 @@ export const logIn = createAsyncThunk(
     try {
       const { data } = await serviceApi.user.loginUser(userAuthData);
       serviceApi.token.set(data.token);
+      notification.logInSuccess(data.user.name);
       return data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      const {
+        response: { status, statusText },
+      } = error;
+      notification.logInError(status);
+      return rejectWithValue({ status, statusText });
     }
   },
 );
@@ -34,25 +45,35 @@ export const logOut = createAsyncThunk(
       await serviceApi.user.logoutUser();
       serviceApi.token.unset();
     } catch (error) {
-      return rejectWithValue(error.message);
+      const {
+        response: { status, statusText },
+      } = error;
+      notification.logOutError(status);
+      return rejectWithValue({ status, statusText });
     }
   },
 );
 
-export const refresh = createAsyncThunk('user/refresh', async (_, thunkApi) => {
-  try {
-    const state = thunkApi.getState();
-    const persistedToken = state.auth.token;
+export const refresh = createAsyncThunk(
+  'user/refresh',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+      const persistedToken = state.auth.token;
 
-    if (!persistedToken) {
-      return thunkApi.rejectWithValue('no token found');
+      if (!persistedToken) {
+        return rejectWithValue({ status: null, statusText: 'No token found' });
+      }
+
+      serviceApi.token.set(persistedToken);
+      const { data } = await serviceApi.user.getCurrentUser();
+      return data;
+    } catch (error) {
+      const {
+        response: { status, statusText },
+      } = error;
+      notification.logOutError(status);
+      return rejectWithValue({ status, statusText });
     }
-
-    serviceApi.token.set(persistedToken);
-
-    const { data } = await serviceApi.user.getCurrentUser();
-    return data;
-  } catch (error) {
-    return thunkApi.rejectWithValue(error.message);
-  }
-});
+  },
+);
