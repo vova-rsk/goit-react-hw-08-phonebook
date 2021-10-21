@@ -8,18 +8,23 @@ import {
 } from './LoginForm.styled';
 import * as authOperations from '../../redux/auth/auth-operations';
 
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+
 const LoginForm = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordShow, setPasswordShow] = useState(false);
 
   const handleSubmit = e => {
     e.preventDefault();
-
     dispatch(authOperations.logIn({ email, password }));
-
-    setEmail('');
-    setPassword('');
   };
 
   return (
@@ -37,18 +42,30 @@ const LoginForm = () => {
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
-          <StyledTextField
-            required
-            label="Password"
-            type="password"
-            autoComplete="current-password"
-            size="small"
-            variant="standard"
-            // pattern="^(?=.*?[az])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{7,}$"
-            // title="Minimum of 7 characters. Should have at least one special character and one number and one UpperCase Letter."
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
+          <FormControl sx={{ marginTop: '6px' }} variant="standard">
+            <InputLabel htmlFor="standard-adornment-password">
+              Password
+            </InputLabel>
+            <Input
+              id="standard-adornment-password"
+              type={passwordShow ? 'text' : 'password'}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setPasswordShow(!passwordShow)}
+                    onMouseDown={e => {
+                      e.preventDefault();
+                    }}
+                  >
+                    {passwordShow ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
           <StyledButton type="submit" variant="contained" size="large">
             Login
           </StyledButton>
