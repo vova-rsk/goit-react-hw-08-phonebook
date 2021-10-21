@@ -27,25 +27,23 @@ const App = () => {
     <>
       <ApplicationBar />
       <ToastContainer />
-      {!isUserDataLoading && (
-        <Container>
-          <Switch>
-            <PublicRoute path="/" exact restricted>
-              <Redirect to="/login" />
-            </PublicRoute>
-            <PublicRoute path="/login" restricted>
-              <LoginView />
-            </PublicRoute>
-            <PublicRoute path="/register" restricted>
-              <RegisterView />
-            </PublicRoute>
-            <PrivatRoute path="/contacts">
-              <ContactsView />
-            </PrivatRoute>
-            <Route component={PageErrorView} />
-          </Switch>
-        </Container>
-      )}
+      <Container>
+        <Switch>
+          <PublicRoute path="/" exact restricted>
+            <Redirect to="/login" />
+          </PublicRoute>
+          <PublicRoute path="/login" restricted>
+            <LoginView />
+          </PublicRoute>
+          <PublicRoute path="/register" restricted>
+            <RegisterView />
+          </PublicRoute>
+          <PrivatRoute path="/contacts">
+            {!isUserDataLoading && <ContactsView />}
+          </PrivatRoute>
+          <Route component={PageErrorView} />
+        </Switch>
+      </Container>
     </>
   );
 };
