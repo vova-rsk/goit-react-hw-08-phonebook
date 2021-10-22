@@ -40,6 +40,7 @@ export const remove = createAsyncThunk(
   async (contactId, { rejectWithValue }) => {
     try {
       await serviceApi.contacts.deleteContact(contactId);
+      notification.deleteContactSuccess();
       return contactId;
     } catch (error) {
       const {
@@ -59,6 +60,7 @@ export const patch = createAsyncThunk(
         name,
         number,
       });
+      notification.updateContactSuccess();
       return data;
     } catch (error) {
       const {

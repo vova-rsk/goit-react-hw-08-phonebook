@@ -19,7 +19,7 @@ const ContactsEditForm = ({ contact, modalHide }) => {
   const [name, setName] = useState(contact.name);
   const [number, setNumber] = useState(contact.number);
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     const { id } = contact;
@@ -29,8 +29,8 @@ const ContactsEditForm = ({ contact, modalHide }) => {
       return;
     }
 
-    dispatch(contactsOperations.patch({ id, name, number }));
-    modalHide();
+    await dispatch(contactsOperations.patch({ id, name, number }));
+    await modalHide();
   };
 
   return (

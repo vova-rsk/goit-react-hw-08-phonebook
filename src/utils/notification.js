@@ -71,10 +71,18 @@ const fetchContactsError = errorCode => {
   }
 };
 
+const deleteContactSuccess = () => {
+  notification.success('Contact removed successfully');
+};
+
 const deleteContactError = errorCode => {
   if (errorCode === 500) {
     notification.warning('Server error. Try again');
   }
+};
+
+const updateContactSuccess = () => {
+  notification.success('Сontact updated successfully');
 };
 
 const updateContactError = errorCode => {
@@ -95,7 +103,9 @@ const notification = {
   addContactSuccess,
   addContactError,
   fetchContactsError,
+  deleteContactSuccess,
   deleteContactError,
+  updateContactSuccess,
   updateContactError,
 };
 

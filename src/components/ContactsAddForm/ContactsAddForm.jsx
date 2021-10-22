@@ -19,7 +19,7 @@ const ContactsAddForm = ({ modalHide }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     const contactToAdd = { name, number };
@@ -29,8 +29,8 @@ const ContactsAddForm = ({ modalHide }) => {
       return;
     }
 
-    dispatch(contactsOperations.post(contactToAdd));
-    modalHide();
+    await dispatch(contactsOperations.post(contactToAdd));
+    await modalHide();
   };
 
   return (
