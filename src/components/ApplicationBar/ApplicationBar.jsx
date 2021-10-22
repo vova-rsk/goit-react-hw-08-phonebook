@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,17 +10,18 @@ import FilterBar from '../FilterBar';
 import Logo from '../Logo/Logo';
 import UserMenu from '../UserMenu';
 import { getAuthStatus } from '../../redux/auth/auth-selectors';
+import * as authOperations from '../../redux/auth/auth-operations';
 
 const ApplicationBar = () => {
+  const history = useHistory();
   const auth = useSelector(getAuthStatus);
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleMenu = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
+  const handleLogOut = async () => {
+    dispatch(authOperations.logOut());
     setAnchorEl(null);
+    history.push({ pathname: '/login' });
   };
 
   return (
@@ -32,9 +34,14 @@ const ApplicationBar = () => {
             {!auth && <NavigationBar />}
             {auth && (
               <UserMenu
-                handleMenu={handleMenu}
+                handleMenu={e => {
+                  setAnchorEl(e.currentTarget);
+                }}
                 anchorEl={anchorEl}
-                handleClose={handleClose}
+                handleClose={() => {
+                  setAnchorEl(null);
+                }}
+                handleLogout={handleLogOut}
               />
             )}
           </Container>

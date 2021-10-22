@@ -1,4 +1,3 @@
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Menu from '@mui/material/Menu';
 import IconButton from '@mui/material/IconButton';
@@ -6,16 +5,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import BasicCard from '../UserCard';
 import { StyledMenuItem } from './UserMenu.styled';
-import * as authOperations from '../../redux/auth/auth-operations';
 
-const UserMenu = ({ handleMenu, anchorEl, handleClose }) => {
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(authOperations.logOut());
-    handleClose();
-  };
-
+const UserMenu = ({ handleMenu, anchorEl, handleClose, handleLogout }) => {
   return (
     <>
       <IconButton
@@ -57,6 +48,7 @@ UserMenu.propTypes = {
   handleMenu: PropTypes.func.isRequired,
   anchorEl: PropTypes.any,
   handleClose: PropTypes.func.isRequired,
+  handleLogout: PropTypes.func.isRequired,
 };
 
 export default UserMenu;
