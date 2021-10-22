@@ -10,8 +10,10 @@ import {
 } from './ContactsAddForm.styled';
 import { getLoadingStatus } from '../../redux/contacts/contacts-selectors';
 import * as contactsOperations from '../../redux/contacts/contacts-operations';
-import { duplicateChekingSuccess } from '../../utils/utils';
-import notification from '../../utils/notification';
+import {
+  contactDataValidationSuccess,
+  duplicateChekingSuccess,
+} from '../../utils/utils';
 
 const ContactsAddForm = ({ modalHide }) => {
   const isLoading = useSelector(getLoadingStatus);
@@ -24,8 +26,11 @@ const ContactsAddForm = ({ modalHide }) => {
 
     const contactToAdd = { name, number };
 
+    if (!contactDataValidationSuccess(contactToAdd)) {
+      return;
+    }
+
     if (duplicateChekingSuccess(contactToAdd, { type: 'add' })) {
-      notification.duplicationSuccess();
       return;
     }
 
@@ -51,6 +56,7 @@ const ContactsAddForm = ({ modalHide }) => {
             label="Phone number"
             variant="standard"
             size="small"
+            title="Must be 3-15 digits only"
             value={number}
             onChange={e => setNumber(e.target.value)}
           />

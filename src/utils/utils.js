@@ -5,9 +5,10 @@ const NAME_PATTERN = "^[a-zA-Zа-яА-Я]+((['-][a-zA-Zа-яА-Я])?[a-zA-Zа-я
 const EMAIL_PATTERN = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
 const PASSWORD_PATTERN =
   '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%&])(?=.{7,16})';
+const PHONE_NUMBER_PATTERN = '^[0-9]{3,15}$';
 
-export const registrationDataCheckingSucces = data => {
-  const { name, email, password, verificationPassword } = data;
+export const registrationDataValidationSucces = userData => {
+  const { name, email, password, verificationPassword } = userData;
   const nameRegex = new RegExp(NAME_PATTERN);
   const emailRegex = new RegExp(EMAIL_PATTERN);
   const passwordRegex = new RegExp(PASSWORD_PATTERN);
@@ -34,20 +35,36 @@ export const registrationDataCheckingSucces = data => {
   return true;
 };
 
+export const contactDataValidationSuccess = contactData => {
+  const { number } = contactData;
+  const numberRegex = new RegExp(PHONE_NUMBER_PATTERN);
+
+  if (!numberRegex.test(number)) {
+    notification.warning('Incorrect number format entered!');
+    return false;
+  }
+  return true;
+};
+
 export const duplicateChekingSuccess = (contact, action = {}) => {
   const { contacts } = store.getState();
+  let isDuplicate = false;
 
   switch (action.type) {
     case 'add':
-      return Boolean(
+      isDuplicate = Boolean(
         contacts.items.find(({ number }) => number === contact.number),
       );
+      if (isDuplicate) notification.duplicationSuccess();
+      return isDuplicate;
     case 'edit':
-      return Boolean(
+      isDuplicate = Boolean(
         contacts.items
           .filter(({ id }) => id !== contact.id)
           .find(({ number }) => number === contact.number),
       );
+      if (isDuplicate) notification.duplicationSuccess();
+      return isDuplicate;
     default:
       notification.warning('something went wrong');
   }

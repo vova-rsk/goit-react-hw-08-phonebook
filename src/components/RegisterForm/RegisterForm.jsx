@@ -16,7 +16,7 @@ import {
 } from './RegisterForm.styled';
 import * as authOperations from '../../redux/auth/auth-operations';
 import { getLoadingStatus } from '../../redux/auth/auth-selectors';
-import { registrationDataCheckingSucces } from '../../utils/utils';
+import { registrationDataValidationSucces } from '../../utils/utils';
 
 const RegisterForm = () => {
   const isLoading = useSelector(getLoadingStatus);
@@ -33,7 +33,7 @@ const RegisterForm = () => {
     e.preventDefault();
 
     if (
-      !registrationDataCheckingSucces({
+      !registrationDataValidationSucces({
         name,
         email,
         password,

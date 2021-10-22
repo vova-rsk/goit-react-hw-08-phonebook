@@ -10,8 +10,10 @@ import {
 } from './ContactsEditForm.styled';
 import { getLoadingStatus } from '../../redux/contacts/contacts-selectors';
 import * as contactsOperations from '../../redux/contacts/contacts-operations';
-import { duplicateChekingSuccess } from '../../utils/utils';
-import notification from '../../utils/notification';
+import {
+  contactDataValidationSuccess,
+  duplicateChekingSuccess,
+} from '../../utils/utils';
 
 const ContactsEditForm = ({ contact, modalHide }) => {
   const isLoading = useSelector(getLoadingStatus);
@@ -22,14 +24,17 @@ const ContactsEditForm = ({ contact, modalHide }) => {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    const { id } = contact;
+    const contactToUpdate = { id: contact.id, name, number };
 
-    if (duplicateChekingSuccess({ id, name, number }, { type: 'edit' })) {
-      notification.duplicationSuccess();
+    if (!contactDataValidationSuccess(contactToUpdate)) {
       return;
     }
 
-    await dispatch(contactsOperations.patch({ id, name, number }));
+    if (duplicateChekingSuccess(contactToUpdate, { type: 'edit' })) {
+      return;
+    }
+
+    await dispatch(contactsOperations.patch(contactToUpdate));
     await modalHide();
   };
 
@@ -51,6 +56,7 @@ const ContactsEditForm = ({ contact, modalHide }) => {
             label="Phone number"
             variant="standard"
             size="small"
+            title="Must be 3-15 digits only"
             value={number}
             onChange={e => setNumber(e.target.value)}
           />
