@@ -1,4 +1,5 @@
 import notification from './notification';
+import { store } from '../redux/store';
 
 const NAME_PATTERN = "^[a-zA-Zа-яА-Я]+((['-][a-zA-Zа-яА-Я])?[a-zA-Zа-яА-Я]*)*$";
 const EMAIL_PATTERN = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
@@ -33,6 +34,21 @@ export const registrationDataCheckingSucces = data => {
   return true;
 };
 
-export const duplicateChekingSuccess = (contacts, contact) => {
-  return Boolean(contacts.find(({ number }) => number === contact.number));
+export const duplicateChekingSuccess = (contact, action = {}) => {
+  const { contacts } = store.getState();
+
+  switch (action.type) {
+    case 'add':
+      return Boolean(
+        contacts.items.find(({ number }) => number === contact.number),
+      );
+    case 'edit':
+      return Boolean(
+        contacts.items
+          .filter(({ id }) => id !== contact.id)
+          .find(({ number }) => number === contact.number),
+      );
+    default:
+      notification.warning('something went wrong');
+  }
 };

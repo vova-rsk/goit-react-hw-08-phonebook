@@ -1,16 +1,20 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import SaveIcon from '@mui/icons-material/Save';
 import {
   Container,
   StyledTextField,
   StyledButton,
   StyledPaper,
 } from './ContactsEditForm.styled';
+import { getLoadingStatus } from '../../redux/contacts/contacts-selectors';
 import * as contactsOperations from '../../redux/contacts/contacts-operations';
-// import { registrationDataCheckingSucces } from '../../utils/utils';
+import { duplicateChekingSuccess } from '../../utils/utils';
+import notification from '../../utils/notification';
 
 const ContactsEditForm = ({ contact, modalHide }) => {
+  const isLoading = useSelector(getLoadingStatus);
   const dispatch = useDispatch();
   const [name, setName] = useState(contact.name);
   const [number, setNumber] = useState(contact.number);
@@ -18,9 +22,14 @@ const ContactsEditForm = ({ contact, modalHide }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    // if (!registrationDataCheckingSucces({ name, email })) return;
+    const { id } = contact;
 
-    dispatch(contactsOperations.patch({ id: contact.id, name, number }));
+    if (duplicateChekingSuccess({ id, name, number }, { type: 'edit' })) {
+      notification.duplicationSuccess();
+      return;
+    }
+
+    dispatch(contactsOperations.patch({ id, name, number }));
     modalHide();
   };
 
@@ -34,7 +43,6 @@ const ContactsEditForm = ({ contact, modalHide }) => {
             label="Name"
             variant="standard"
             size="small"
-            // title="The name can only consist of letters, apostrophes, dashes and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
             value={name}
             onChange={e => setName(e.target.value)}
           />
@@ -43,11 +51,16 @@ const ContactsEditForm = ({ contact, modalHide }) => {
             label="Phone number"
             variant="standard"
             size="small"
-            // title="The mail value should look like this: example@domain.com"
             value={number}
             onChange={e => setNumber(e.target.value)}
           />
-          <StyledButton type="submit" variant="contained" size="large">
+          <StyledButton
+            type="submit"
+            loading={isLoading}
+            loadingPosition="center"
+            startIcon={<SaveIcon />}
+            variant="contained"
+          >
             Save
           </StyledButton>
         </form>

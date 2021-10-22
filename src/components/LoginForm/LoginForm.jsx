@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import {
   Container,
   StyledTextField,
@@ -14,8 +15,10 @@ import {
   StyledPaper,
 } from './LoginForm.styled';
 import * as authOperations from '../../redux/auth/auth-operations';
+import { getLoadingStatus } from '../../redux/auth/auth-selectors';
 
 const LoginForm = () => {
+  const isLoading = useSelector(getLoadingStatus);
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -62,7 +65,13 @@ const LoginForm = () => {
               }
             />
           </FormControl>
-          <StyledButton type="submit" variant="contained" size="large">
+          <StyledButton
+            type="submit"
+            loading={isLoading}
+            loadingPosition="center"
+            startIcon={<VpnKeyIcon />}
+            variant="contained"
+          >
             Login
           </StyledButton>
         </form>

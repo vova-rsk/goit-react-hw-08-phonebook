@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {
   Container,
   StyledTextField,
@@ -14,9 +15,11 @@ import {
   StyledPaper,
 } from './RegisterForm.styled';
 import * as authOperations from '../../redux/auth/auth-operations';
+import { getLoadingStatus } from '../../redux/auth/auth-selectors';
 import { registrationDataCheckingSucces } from '../../utils/utils';
 
 const RegisterForm = () => {
+  const isLoading = useSelector(getLoadingStatus);
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -118,7 +121,13 @@ const RegisterForm = () => {
               }
             />
           </FormControl>
-          <StyledButton type="submit" variant="contained" size="large">
+          <StyledButton
+            type="submit"
+            loading={isLoading}
+            loadingPosition="center"
+            startIcon={<HowToRegIcon />}
+            variant="contained"
+          >
             Register
           </StyledButton>
         </form>

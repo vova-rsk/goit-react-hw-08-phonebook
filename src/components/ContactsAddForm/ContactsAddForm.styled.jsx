@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import TextField from '@mui/material/TextField';
 import { Paper } from '@mui/material';
 
@@ -34,7 +34,7 @@ export const StyledTextField = styled(TextField)`
   }
 `;
 
-export const StyledButton = styled(Button)`
+export const StyledButton = styled(LoadingButton)`
   margin: 20px auto 0;
   width: 140px;
 `;
