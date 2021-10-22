@@ -1,5 +1,5 @@
 import { useEffect, lazy, Suspense } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -57,7 +57,9 @@ const App = () => {
             <PrivatRoute path="/contacts">
               {!isUserDataLoading && <AsyncContactsView />}
             </PrivatRoute>
-            <Route component={AsyncPageErrorView} />
+            <PublicRoute>
+              <AsyncPageErrorView />
+            </PublicRoute>
           </Switch>
         </Suspense>
       </Container>
